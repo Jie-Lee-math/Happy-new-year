@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>2026春节倒计时</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg:
+          radial-gradient(circle at top, rgba(255, 255, 255, 0.12), transparent 45%),
+          radial-gradient(circle at 20% 20%, rgba(255, 221, 170, 0.12), transparent 40%),
+          linear-gradient(180deg, #b6181f 0%, #7a0b13 45%, #4c0610 100%);
+      }
+      html {
+        background: var(--bg);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+        background: var(--bg);
+        color: #fff6e9;
+        overflow: hidden;
+        min-height: 100svh;
+        min-height: 100dvh;
+      }
+      .art-text {
+        font-family: "STKaiti", "Kaiti SC", "KaiTi", "STSong", "Songti SC", "serif";
+        text-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+        letter-spacing: 2px;
+      }
+      .poster {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 14px;
+        padding: 32px 20px 24px;
+        text-align: center;
+      }
+      .poster-header {
+        letter-spacing: 4px;
+      }
+      .poster-header .title {
+        font-size: 42px;
+        font-weight: 600;
+        color: #ffe6c4;
+      }
+      .title-tone {
+        color: #ffe6c4;
+        text-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+      }
+      .poster-header .year {
+        font-size: 18px;
+        opacity: 0.85;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .poster-header .subtitle {
+        font-size: 16px;
+        opacity: 0.8;
+        letter-spacing: 2px;
+      }
+      .hero {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(220px, 1.1fr) minmax(220px, 1fr);
+        align-items: center;
+        gap: 24px;
+        padding: 8px 0 16px;
+      }
+      .hero-left {
+        text-align: left;
+        display: grid;
+        gap: 12px;
+        padding-left: min(6vw, 36px);
+        justify-items: center;
+        align-items: center;
+        width: 100%;
+      }
+      .hero-right {
+        position: relative;
+        display: grid;
+        place-items: center;
+        z-index: 1;
+      }
+      .hero-right::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 40%, rgba(255, 214, 155, 0.12), rgba(122, 11, 19, 0.25) 70%);
+        mix-blend-mode: multiply;
+        pointer-events: none;
+      }
+      .halo {
+        position: absolute;
+        width: min(50vw, 320px);
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 230, 190, 0.22), rgba(255, 230, 190, 0) 65%);
+        border: 1px solid rgba(255, 214, 155, 0.28);
+        filter: blur(0.2px);
+      }
+      .horse-art {
+        width: min(48vw, 340px);
+        height: auto;
+        opacity: 0.85;
+        mix-blend-mode: multiply;
+        filter:
+          saturate(0.6)
+          hue-rotate(-8deg)
+          brightness(0.9)
+          drop-shadow(0 14px 28px rgba(0, 0, 0, 0.45));
+      }
+      .countdown {
+        font-size: 128px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #fff2d6;
+      }
+      .subtext {
+        opacity: 0.85;
+        font-size: 16px;
+      }
+      .banner {
+        margin-top: 6px;
+        padding: 8px 18px;
+        border: 1px solid rgba(255, 214, 155, 0.4);
+        border-radius: 999px;
+        background: rgba(255, 214, 155, 0.12);
+        font-size: 16px;
+        color: #ffe4bf;
+      }
+      .blessing {
+        font-size: 112px;
+        margin-top: 10px;
+        line-height: 1.15;
+        max-width: 520px;
+      }
+      .after-text {
+        font-size: 128px;
+        margin-top: 12px;
+        line-height: 1.15;
+        max-width: 520px;
+      }
+      .reveal {
+        animation: popIn 0.8s ease both;
+      }
+      @keyframes popIn {
+        0% {
+          opacity: 0;
+          transform: translateY(12px) scale(0.98);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .footer {
+        font-size: 14px;
+        letter-spacing: 3px;
+        opacity: 0.6;
+      }
+      .horse {
+        position: fixed;
+        bottom: 12%;
+        left: -30%;
+        font-size: 38px;
+        white-space: nowrap;
+        z-index: 3;
+        animation: gallop 6s linear forwards;
+        color: #ffe1b0;
+        text-shadow: 0 0 12px rgba(255, 209, 102, 0.9);
+        display: none;
+      }
+      .horse.show {
+        display: block;
+      }
+      @keyframes gallop {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(140vw);
+        }
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .layer-top {
+        position: relative;
+        z-index: 3;
+      }
+      @media (max-width: 760px) {
+        .hero {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .hero-left {
+          text-align: center;
+          padding-left: 0;
+        }
+        .countdown {
+          font-size: 88px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="horse" id="horse">Happy New Year</div>
+    <main class="poster">
+      <canvas id="fireworks"></canvas>
+      <header class="poster-header art-text layer-top">
+        <div class="year">2026 · 马年</div>
+        <div class="title">NEW YEAR</div>
+        <div class="subtitle">恭贺新春 · 万事如意</div>
+      </header>
+      <section class="hero">
+        <div class="hero-left layer-top">
+          <div class="countdown art-text" id="countdown">--:--:--</div>
+          <div class="subtext art-text" id="subtext">距离 2026-02-17 00:00</div>
+          <div class="banner art-text title-tone" id="gala" style="display: none">
+            🎉 春节联欢晚会开始啦！
+          </div>
+          <div class="blessing art-text title-tone" id="blessing" style="display: none">
+            新年快乐<br />岁岁平安
+
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="halo" aria-hidden="true"></div>
+          <img
+            class="horse-art"
+            src="主题.png"
+            alt="春节卡通小马"
+          />
+        </div>
+      </section>
+      <footer class="footer art-text layer-top">CHINA · 新春快乐</footer>
+    </main>
+    <script>
+      const countdownEl = document.getElementById("countdown");
+      const subtextEl = document.getElementById("subtext");
+      const galaEl = document.getElementById("gala");
+      const blessingEl = document.getElementById("blessing");
+      const afterTextEl = document.getElementById("after-text");
+      const horseEl = document.getElementById("horse");
+      const newYearTime = new Date(2026, 1, 17, 0, 0, 0);
+      const galaTime = new Date(2026, 1, 16, 20, 0, 0);
+      const galaEndTime = new Date(galaTime.getTime() + 30 * 60 * 1000);
+      const afterTextTime = new Date(newYearTime.getTime() + 2 * 60 * 1000);
+      let lastHorseHour = null;
+
+      function formatDuration(ms) {
+        const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        return { days, hours, minutes, seconds };
+      }
+
+      function showWithAnimation(el, display) {
+        if (el.style.display !== display) {
+          el.style.display = display;
+          el.classList.remove("reveal");
+          void el.offsetWidth;
+          el.classList.add("reveal");
+        }
+      }
+
+      function updateCountdown() {
+        const now = new Date();
+        if (now >= newYearTime) {
+          countdownEl.style.display = "none";
+          subtextEl.style.display = "none";
+          galaEl.style.display = "none";
+          showWithAnimation(blessingEl, "block");
+          if (afterTextEl && now >= afterTextTime) {
+            showWithAnimation(afterTextEl, "block");
+          }
+          return;
+        }
+        const remaining = newYearTime - now;
+        const { hours, minutes, seconds } = formatDuration(remaining);
+        const pad = (num) => String(num).padStart(2, "0");
+        countdownEl.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        subtextEl.textContent = "距离 2026-02-17 00:00";
+        if (now >= galaTime && now <= galaEndTime) {
+          showWithAnimation(galaEl, "inline-block");
+        } else {
+          galaEl.style.display = "none";
+        }
+      }
+
+      function maybeShowHorse() {
+        const now = new Date();
+        if (lastHorseHour === now.getHours()) {
+          return;
+        }
+        if (now.getMinutes() === 0 && now.getSeconds() === 0) {
+          lastHorseHour = now.getHours();
+          horseEl.classList.remove("show");
+          void horseEl.offsetWidth;
+          horseEl.classList.add("show");
+          setTimeout(() => {
+            horseEl.classList.remove("show");
+          }, 6500);
+        }
+      }
+
+      setInterval(() => {
+        updateCountdown();
+        maybeShowHorse();
+      }, 1000);
+      updateCountdown();
+
+      const canvas = document.getElementById("fireworks");
+      const ctx = canvas.getContext("2d");
+      const particles = [];
+      const gravity = 0.03;
+      const colors = ["#ffd9a3", "#ffb55c", "#f9844a", "#f94144", "#f6bd60"];
+      const maxParticles = 1200;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      function createFirework() {
+        const x = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
+        const y = Math.random() * canvas.height * 0.4 + canvas.height * 0.1;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const count = 120 + Math.floor(Math.random() * 80);
+        for (let i = 0; i < count; i += 1) {
+          const angle = (Math.PI * 2 * i) / count;
+          const speed = Math.random() * 3 + 2.5;
+          particles.push({
+            x,
+            y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            alpha: 1,
+            color,
+            radius: Math.random() * 2.5 + 2.5,
+          });
+        }
+      }
+
+      function updateFireworks() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = particles.length - 1; i >= 0; i -= 1) {
+          const p = particles[i];
+          p.vy += gravity;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.alpha -= 0.012;
+          if (p.alpha <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+          ctx.globalAlpha = Math.max(p.alpha, 0);
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(updateFireworks);
+      }
+      updateFireworks();
+
+      setInterval(() => {
+        if (particles.length < maxParticles) {
+          createFirework();
+        }
+      }, 450);
+
+      for (let i = 0; i < 6; i += 1) {
+        createFirework();
+      }
+    </script>
+  </body>
+</html>
+
