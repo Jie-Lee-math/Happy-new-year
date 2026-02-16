@@ -120,7 +120,7 @@
           drop-shadow(0 14px 28px rgba(0, 0, 0, 0.45));
       }
       .countdown {
-        font-size: 128px;
+        font-size: clamp(56px, 12vw, 128px);
         font-weight: 700;
         letter-spacing: 1px;
         color: #fff2d6;
@@ -139,13 +139,13 @@
         color: #ffe4bf;
       }
       .blessing {
-        font-size: 112px;
+        font-size: clamp(52px, 10vw, 112px);
         margin-top: 10px;
         line-height: 1.15;
         max-width: 520px;
       }
       .after-text {
-        font-size: 128px;
+        font-size: clamp(56px, 12vw, 128px);
         margin-top: 12px;
         line-height: 1.15;
         max-width: 520px;
@@ -205,13 +205,52 @@
         .hero {
           grid-template-columns: 1fr;
           text-align: center;
+          gap: 18px;
         }
         .hero-left {
           text-align: center;
           padding-left: 0;
         }
-        .countdown {
-          font-size: 88px;
+        .poster {
+          padding: 24px 16px 20px;
+        }
+        .poster-header {
+          letter-spacing: 2px;
+        }
+        .poster-header .title {
+          font-size: 34px;
+        }
+        .poster-header .year {
+          font-size: 16px;
+        }
+        .poster-header .subtitle {
+          font-size: 14px;
+        }
+        .subtext {
+          font-size: 14px;
+        }
+        .banner {
+          font-size: 14px;
+          padding: 6px 14px;
+        }
+        .footer {
+          font-size: 12px;
+          letter-spacing: 2px;
+        }
+        .horse-art {
+          width: min(70vw, 300px);
+        }
+      }
+      @media (max-width: 420px) {
+        .hero {
+          gap: 14px;
+        }
+        .blessing,
+        .after-text {
+          max-width: 320px;
+        }
+        .banner {
+          font-size: 13px;
         }
       }
     </style>
@@ -241,7 +280,7 @@
           <div class="halo" aria-hidden="true"></div>
           <img
             class="horse-art"
-            src="主题.png"
+            src="主题.PNG"
             alt="春节卡通小马"
           />
         </div>
